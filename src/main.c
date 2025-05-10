@@ -35,15 +35,15 @@ SPDX-License-Identifier: MIT
 static const struct alumno_s Mis_datos = {
     .nombre="Ulises Leandro",
     .apellido="Uberti",
-    .DNI= 4436062,
+    .DNI= 44376062,
 };
 /* === Public variable definitions ================================================================================= */
 
 /* === Private function definitions ================================================================================ */
 int main(void){
-    char chain[50];
+    char chain[80];
     int ocupado_chain;
-    printf("Size of main chain's");
+    printf("Size of main chain's\n");
     ocupado_chain=Serializar(&Mis_datos,chain,sizeof(chain));
     printf("Los datos del alumno ocupan: %i\n",ocupado_chain);
     if (ocupado_chain>0)
