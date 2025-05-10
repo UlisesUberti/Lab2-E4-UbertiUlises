@@ -37,23 +37,38 @@ static const struct alumno_s Mis_datos = {
     .apellido="Uberti",
     .DNI= 44376062,
 };
+static const struct alumno_s Mis_datos2 = {
+    .nombre="Ulises Leandro",
+    .apellido="Uberti",
+    .DNI= 44376062,
+};
 /* === Public variable definitions ================================================================================= */
 
 /* === Private function definitions ================================================================================ */
 int main(void){
-    char chain[80];
+    char chain1[50],chain2[62];
     int ocupado_chain;
-    printf("Size of main chain's\n");
-    ocupado_chain=Serializar(&Mis_datos,chain,sizeof(chain));
-    printf("Los datos del alumno ocupan: %i\n",ocupado_chain);
+    //printf("Size of main chain's\n");
+    ocupado_chain=Serializar(&Mis_datos,chain1,sizeof(chain1));
+    //printf("Los datos del alumno ocupan: %i\n",ocupado_chain);
     if (ocupado_chain>0)
     {
-        printf("Serializado: %s\n",chain);
+        printf("Serializado: %s\n",chain1);
     }
     else
     {
-        printf("Error al Serializar");
+        printf("Error al Serializar / CADENA INSUFICIENTE\n");
     }
+    ocupado_chain=Serializar(&Mis_datos2,chain2,sizeof(chain2));
+     if (ocupado_chain>0)
+    {
+        printf("Serializado: %s\n",chain2);
+    }
+    else
+    {
+        printf("Error al Serializar/CADENA INSUFICIENTE\n");
+    }
+
     return 0;
 }
 /* === Public function implementation ============================================================================== */
