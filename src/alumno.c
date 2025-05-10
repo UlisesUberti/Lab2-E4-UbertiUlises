@@ -41,14 +41,14 @@ SPDX-License-Identifier: MIT
  *  @param chain es la cadena sobre la que escribo 
  *  @param espacio es el tañamo del dato 
  */
-int Serialize_chain(char campo[],const char valor[],char chain[],uint32_t espacio){
+int Serialize_chain(char campo[],const char valor[],char chain[],uint32_t espacio,int posicion){
     /*recibe la cadena y el espacio que tiene la misma*/
     /**Retorna la cantidad de caracteres que escribio si la cadena tiene el tamaño para hacerlo
      * en caso de no ser asi retorna NULL
     */
-   printf("Entro en la funcion Serialize_chain");
+   printf("Entro en la funcion Serialize_chain\n");
    // espacio = sizeof(chain);
-   return snprintf(chain,espacio,"\"%s\":\"%s\",",campo,valor); 
+   return snprintf(chain+posicion,espacio,"\"%s\":\"%s\",",campo,valor); 
    //chain es la cadena donde se escribira 
    //espacio es el limite de la caracteres en la cadena 
    //"\"%s\":\"%s\" el primero indica el campo y el segundo el valor 
@@ -57,29 +57,30 @@ int Serialize_chain(char campo[],const char valor[],char chain[],uint32_t espaci
 /* === Public function implementation ============================================================================== */
 int Serializar(alumno_t alumno,char chain[],uint32_t espacio){
     printf("Arranco la funcion Serializar\n");
+    printf("El espacio de la cadena es: %i\n",espacio);
     int posicion=0;
     chain[posicion]='{';  //el primer elemento de la cadena es una llave del formato 
-    chain[posicion++]; /**La cadena se coloca en la posicion despues de { */
+    //chain[posicion++]; /**La cadena se coloca en la posicion despues de { */
     printf("Se escribio una llave y se movio de lugar la cadena: %s , %i\n",chain,posicion);
     int ocupado=1;
-    espacio--; /** El tamaño de la cadena se reduce en 1 */
+    espacio=espacio-1; /** El tamaño de la cadena se reduce en 1 */
     /** @brief Cant_Caracteres recibe la cantidad de caracteres escritos si es que se escribio */
-   int Cant_caracteres = Serialize_chain("name",alumno->nombre,chain,espacio); 
+   int Cant_caracteres = Serialize_chain("name",alumno->nombre,chain,espacio,posicion); 
    if (Cant_caracteres<0)
    {
     return -1;
    }
    /** Chain se posiciona en '{ + caracteres escritos' */
    printf("Se escribio el nombre en la cadena y quedo de la forma: %s\n",chain);
-   posicion+=Cant_caracteres;
-   chain[posicion++]; //se ubica la posicion de la cadena luego de los caracteres cargados
+   posicion= posicion+Cant_caracteres;
+   //chain[posicion++]; //se ubica la posicion de la cadena luego de los caracteres cargados
    printf("La posicion de la cadena luego del nombre es: %i\n",posicion);
    ocupado = ocupado + Cant_caracteres;
    /**El tamaño de la cadena se reduce debido a los caracteres escritos */
    espacio=espacio-Cant_caracteres;
    printf("el espacio que queda luego de poner el nombre es: %i\n",espacio);
    /**Nuevamente para el campo apellido */
-   Cant_caracteres=Serialize_chain("apellido",alumno->apellido,chain,espacio);
+   Cant_caracteres=Serialize_chain("apellido",alumno->apellido,chain,espacio,posicion);
    printf("Se escribio el apellido y la cadena quedo de la forma: %s\n",chain);
     if (Cant_caracteres<0)
    {
