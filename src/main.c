@@ -18,8 +18,9 @@ SPDX-License-Identifier: MIT
 *********************************************************************************************************************/
 
 /** @file main.c
- ** @brief Código fuente en lenguaje C del archivo principal 
- **/
+ * @brief Código fuente del archivo principal
+ * @author Uberti, Ulises Leandro
+ * */
 
 /* === Headers files inclusions ==================================================================================== */
 #include "alumno.h"
@@ -31,34 +32,31 @@ SPDX-License-Identifier: MIT
 /* === Private function declarations =============================================================================== */
 
 /* === Private variable definitions ================================================================================ */
-/** @brief Estrucutra alumno_s
- * @name Mis_datos*/
+
 static const struct alumno_s Mis_datos = 
 {
     .nombre="Ulises Leandro",
     .apellido="Uberti",
     .DNI= 44376062,
 };
-/** @brief Estrucutra alumno_s
- * @name Mis_datos2*/
 static const struct alumno_s Mis_datos2 = 
 {
     .nombre="Ulises Leandro",
     .apellido="Uberti",
     .DNI= 44376062,
 };
+
 /* === Public variable definitions ================================================================================= */
 /* === Private function definitions ================================================================================ */
-/** @brief Funcion Principal
- * @param void 
- *@return 0*/
+
+/** @brief Funcion Principal 
+ * @return 0
+ */
 int main(void)
 {
     char chain1[50],chain2[62];
     int ocupado_chain;
-    //printf("Size of main chain's\n");
     ocupado_chain=Serializar(&Mis_datos,chain1,sizeof(chain1));
-    //printf("Los datos del alumno ocupan: %i\n",ocupado_chain);
     if (ocupado_chain>0)
     {
         printf("Serializado: %s\n",chain1);
@@ -76,7 +74,6 @@ int main(void)
     {
         printf("Error al Serializar/CADENA INSUFICIENTE\n");
     }
-
     return 0;
 }
 /* === Public function implementation ============================================================================== */

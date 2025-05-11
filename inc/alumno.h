@@ -37,18 +37,19 @@ extern "C" {
 /* === Public data type declarations =============================================================================== */
 
 /* === Public variable declarations ================================================================================ */
-/**Declaracion modulo alumno  */
-//Declaracion publica ya que sera usada por otros archivos//
-/** @struct alumno
- @brief representa los datos del alumno 
- */
-/**declaracion de la estructura */
+
+/** @struct alumno_s
+ * @brief estructura que contiene los datos del alumno
+ * @param nombre indica el nombre del alumno(20 caracteres max.)
+ * @param apellido  indica el apellido del alumno(20 caracteres max.)
+ * @param DNI indica el documento del alumno 
+*/
 typedef struct alumno_s 
 {
-    char nombre[20]; //!< nombre 
-    char apellido[20]; //!< apellido 
-    uint32_t DNI; //!< documento 
-} const * alumno_t; //!< Puntero a la estructura alumno_s 
+    char nombre[20]; //!<Nombre del alumno
+    char apellido[20]; //!<Apellido del alumno
+    uint32_t DNI; //!<Documento del alumno
+} const * alumno_t; //!< Puntero a la estructura alumno_s; 
 
 /* === Public function declarations ================================================================================ */
 /** @brief Funcion Serializar 
