@@ -58,6 +58,7 @@ typedef struct alumno_s
  * @return int  retorna -1 si no hay espacio o la cant de caracteres ocupados 
  */
 int Serializar(alumno_t alumno, char chain[],uint32_t espacio);
+
 /* === End of conditional blocks =================================================================================== */
 
 #ifdef __cplusplus

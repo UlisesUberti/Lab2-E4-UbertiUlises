@@ -22,3 +22,8 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	
 clean:
 	@rm -rf $(OUT_DIR)
+	
+doc:
+	@echo "Generando documentación con Doxygen..."
+	@mkdir -p build/doc
+	@doxygen Doxyfile

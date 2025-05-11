@@ -26,14 +26,10 @@ SPDX-License-Identifier: MIT
 #include <stdio.h>
 #include <stdint.h>
 /* === Macros definitions ========================================================================================== */
-
 /* === Private data type declarations ============================================================================== */
-
 /* === Private function declarations =============================================================================== */
 /* === Private variable definitions ================================================================================ */
-
 /* === Public variable definitions ================================================================================= */
-
 /* === Private function definitions ================================================================================ */
 /** @brief Funcion para serializar el nombre
  *  @param campo indica el campo de la estructura 
@@ -41,23 +37,17 @@ SPDX-License-Identifier: MIT
  *  @param chain es la cadena que se va a escribir
  *  @param espacio es el espacio que queda para escibir en la cadena  
  *  @param posicion es la posicion de la cadena que se escribe
+ *  @return -1 si sizeof(&valor)>espacio o snprintf()
  */
 int Serialize_chain(char campo[],const char valor[],char chain[],uint32_t espacio,int posicion){
     /**Retorna la cantidad de caracteres que escribio si la cadena tiene el tamaño para hacerlo
-     * en caso de no ser asi retorna NULL
+     * en caso de no ser asi retorna -1
     */
-   //printf("Entro en la funcion Serialize_chain\n");
-   // espacio = sizeof(chain);
-  // printf(" tamaño de valor: %i\n",sizeof(&valor));
         if (sizeof(&valor)>espacio)
    {
     return -1;
    }
-   return snprintf(chain+posicion,espacio,"\"%s\":\"%s\",",campo,valor); 
-   
-   //chain es la cadena donde se escribira 
-   //espacio es el limite de la caracteres en la cadena 
-   //"\"%s\":\"%s\" el primero indica el campo y el segundo el valor 
+   return snprintf(chain+posicion,espacio,"\"%s\":\"%s\",",campo,valor);  
 }
    /** @brief Funcion para serializar el DNI + APELLIDO&NOMBBRE
  *  @param campo indica el campo de la estructura 
@@ -65,13 +55,13 @@ int Serialize_chain(char campo[],const char valor[],char chain[],uint32_t espaci
  *  @param chain es la cadena que se va a escribir
  *  @param espacio es el espacio que queda para escibir en la cadena  
  *  @param posicion es la posicion de la cadena que se escribe
+ *  @return -1 si sizeof(&valor)>espacio o snprintf
  */
 
 int Serialize_chain_dni(char campo[], uint32_t valor,char chain[],uint32_t espacio,int posicion)
 {
-   // printf("Entro a la funcion que cargara el DNI:\n ");
-    //printf("El tañano de valor: %i",sizeof(&valor));
-         if (sizeof(&valor)>espacio)
+   /**Condicional si resta espacio suficiente para DNI y la ultima llave */
+    if (sizeof(&valor)+1>espacio)
    {
     return -1;
    }
@@ -82,56 +72,50 @@ int Serialize_chain_dni(char campo[], uint32_t valor,char chain[],uint32_t espac
  * @param alumno es el nombre del struct
  * @param chain es la cadena a escribir 
  * @param espacio es la longitud de la cadena 
+ * @return Caracteres ocupados si la cadena fue suficiente o -1 si la cadena fue insuficiente 
  */
 int Serializar(alumno_t alumno,char chain[],uint32_t espacio){
-    //printf("Arranco la funcion Serializar\n");
-    //printf("El espacio de la cadena es: %i\n",espacio);
     int posicion=0;
-    chain[0]='{';  //el primer elemento de la cadena es una llave del formato 
-    chain[posicion++]; /**La cadena se coloca en la posicion despues de { */
-    //printf("Se escribio una llave y se movio de lugar la cadena: %s , %i\n",chain,posicion);
+    /**Se coloca { al inicio para dar formato JSON */
+    chain[0]='{';  
+    /**La cadena se coloca en la posicion despues de { */
+    chain[posicion++]; 
+    /**Ocupado indica cuantos caracteres se van colocando en la cadena */
     int ocupado=1;
-    espacio=espacio-1; /** El tamaño de la cadena se reduce en 1 */
+    /** El tamaño de la cadena se reduce en 1 */
+    espacio=espacio-1; 
     /** @brief Cant_Caracteres recibe la cantidad de caracteres escritos si es que se escribio */
    int Cant_caracteres = Serialize_chain("name",alumno->nombre,chain,espacio,posicion); 
+    /** En caso de desbordamiento de la cadena: */
    if (Cant_caracteres==-1)
    {
     return -1;
    }
-   
-   /** En caso de desbordamiento de la cadena: */
-   /** Chain se posiciona en '{ + caracteres escritos' */
-   //printf("Se escribio el nombre en la cadena y quedo de la forma: %s\n",chain);
+   /**Se mueve la posicion de la cadena, se cambian los caracteres ocupados y se determina el espacio restante */
    posicion= posicion+Cant_caracteres;
-   //chain[posicion++]; //se ubica la posicion de la cadena luego de los caracteres cargados
-   //printf("La posicion de la cadena luego del nombre es: %i\n",posicion);
    ocupado = ocupado + Cant_caracteres;
-   /**El tamaño de la cadena se reduce debido a los caracteres escritos */
    espacio=espacio-Cant_caracteres;
-   //printf("el espacio que queda luego de poner el nombre es: %i\n",espacio);
-   /**Nuevamente para el campo apellido: */
+   /**Funcion Serialize_chain para el apellido */
    Cant_caracteres=Serialize_chain("apellido",alumno->apellido,chain,espacio,posicion);
-     if (Cant_caracteres==-1)
+   /** En caso de desbordamiento de la cadena: */
+    if (Cant_caracteres==-1)
    {
     return -1;
    }
-   //printf("Se escribio el apellido y la cadena quedo de la forma: %s\n",chain);   
-   /** Chain se posiciona en '{ + caracteres escritos' */
    posicion+=Cant_caracteres;
    ocupado += Cant_caracteres;
-   /**El tamaño de la cadena se reduce debido a los caracteres escritos */
    espacio=espacio-Cant_caracteres;
-    //printf("el espacio que queda luego de poner el apellido es: %i\n",espacio);
-   //chain[posicion]='}';
-   /**Nuevamente para el campo apellido */
+   /**Funcion Serialize_chain_dni para el documento */
    Cant_caracteres=Serialize_chain_dni("DNI",alumno->DNI,chain,espacio,posicion);
+      /** En caso de desbordamiento de la cadena: */
+
      if (Cant_caracteres==-1)
    {
     return -1;
    }
+   /**agrego la ultima } */
    chain[posicion+Cant_caracteres-1]='}';
    ocupado += Cant_caracteres;
    return ocupado; 
 }
-
 /* === End of documentation ======================================================================================== */

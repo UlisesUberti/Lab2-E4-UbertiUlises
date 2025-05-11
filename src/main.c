@@ -31,21 +31,29 @@ SPDX-License-Identifier: MIT
 /* === Private function declarations =============================================================================== */
 
 /* === Private variable definitions ================================================================================ */
-/** Definicion de una dato tipo estructura con mis datos, dato declarado en alumno.h */
-static const struct alumno_s Mis_datos = {
+/** @brief Estrucutra alumno_s
+ * @name Mis_datos*/
+static const struct alumno_s Mis_datos = 
+{
     .nombre="Ulises Leandro",
     .apellido="Uberti",
     .DNI= 44376062,
 };
-static const struct alumno_s Mis_datos2 = {
+/** @brief Estrucutra alumno_s
+ * @name Mis_datos2*/
+static const struct alumno_s Mis_datos2 = 
+{
     .nombre="Ulises Leandro",
     .apellido="Uberti",
     .DNI= 44376062,
 };
 /* === Public variable definitions ================================================================================= */
-
 /* === Private function definitions ================================================================================ */
-int main(void){
+/** @brief Funcion Principal
+ * @param void 
+ *@return 0*/
+int main(void)
+{
     char chain1[50],chain2[62];
     int ocupado_chain;
     //printf("Size of main chain's\n");
