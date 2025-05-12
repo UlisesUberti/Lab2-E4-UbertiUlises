@@ -28,7 +28,12 @@ SPDX-License-Identifier: MIT
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 /* === Macros definitions ========================================================================================== */
+#ifndef ALUMNOS_MAX_INSTANCIA
+#define ALUMNOS_MAX_INSTANCIA 2
+// DEFINO LA CANTIDAD MAXIMA DE ALUMNOS Y PUEDO PASARSELA AL MAKEFILE 
+#endif
 /* === Private data type declarations ============================================================================== */
 
 /** @struct alumno_s
@@ -42,13 +47,32 @@ struct alumno_s  //la estrucutura la declare en el h entonces ahora defino
     char nombre[20]; //!<Nombre del alumno
     char apellido[20]; //!<Apellido del alumno
     uint32_t DNI; //!<Documento del alumno
+    bool ocupado; // indica si la instancia esta ocupada 
 }; //!< Puntero a la estructura alumno_s; 
 
 /* === Private function declarations =============================================================================== */
 /* === Private variable definitions ================================================================================ */
 /* === Public variable definitions ================================================================================= */
+static struct alumno_s instancias[ALUMNOS_MAX_INSTANCIA]={0}; 
+// 2 es la cant maxima de alumnos 
+// lo defino como stati para que ocupe memoria estatica 
+
 /* === Private function definitions ================================================================================ */
 
+int Crear_Instancia(){
+   // esta funcion busca el primer desocupado en el array y obtiene su direccion de memoria 
+   alumno_t alumno = NULL;  // peor de los casos --> no encontrar espacio 
+   for (int i = 0; i < ALUMNOS_MAX_INSTANCIA; i++)
+   {
+      //sizeof(instancias)/sizeof(instancias[0] es la cantidad de instancias que tengo
+      if (!instancias[i].ocupado)
+      {
+         instancias[i].ocupado=true; 
+         alumno = &instancias[i];
+         break;
+      }
+   }
+}
 /** @brief Funcion para serializar el nombre y apellido
  *  @param campo indica el campo de la estructura 
  *  @param valor indica valor del campo 
@@ -93,8 +117,10 @@ alumno_t Crear_Alumno(char apellido[], char name[],uint32_t DNI)
    // en una subrutina se guarda informacion se mueve un puntero 
    // se genera una pila de informacion 
    // si malloc no tiene memoria malloc devuelve NULL
+   alumno_t alumno = Crear_Instancia();
    alumno_t alumno = malloc(sizeof(struct alumno_s));
-   // malloc reserva un bloque de memoria dinamica
+   // malloc reserva un bloque de memoria dinamica 
+   // esta funcion obliga al usuario a utilizar memoria dinamica 
    // sizeof me da la cantidad de bytes de la estructura 
    // malloc retorna un puntero 
    // alumno sera un puntero a la estrutura alumno_s, alumno almacena la direc de memoria 
@@ -111,8 +137,7 @@ alumno_t Crear_Alumno(char apellido[], char name[],uint32_t DNI)
    }
    return alumno; //si se puede crear el alumno retorna !=null
 }
-
-
+ 
 /* === Public function implementation ============================================================================== */
 
 int Serializar_Alumno(alumno_t alumno,char chain[],uint32_t espacio){
