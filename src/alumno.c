@@ -26,8 +26,24 @@ SPDX-License-Identifier: MIT
 #include "alumno.h"
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 /* === Macros definitions ========================================================================================== */
 /* === Private data type declarations ============================================================================== */
+
+/** @struct alumno_s
+ * @brief estructura que contiene los datos del alumno
+ * @param nombre indica el nombre del alumno(20 caracteres max.)
+ * @param apellido  indica el apellido del alumno(20 caracteres max.)
+ * @param DNI indica el documento del alumno 
+*/
+struct alumno_s  //la estrucutura la declare en el h entonces ahora defino
+{
+    char nombre[20]; //!<Nombre del alumno
+    char apellido[20]; //!<Apellido del alumno
+    uint32_t DNI; //!<Documento del alumno
+}; //!< Puntero a la estructura alumno_s; 
+
 /* === Private function declarations =============================================================================== */
 /* === Private variable definitions ================================================================================ */
 /* === Public variable definitions ================================================================================= */
@@ -67,9 +83,39 @@ int Serialize_chain_dni(char campo[], uint32_t valor,char chain[],uint32_t espac
    }
    return snprintf(chain+posicion,espacio,"\"%s\":%u,",campo,valor); 
 }
+
+alumno_t Crear_Alumno(char apellido[], char name[],uint32_t DNI)
+{
+   //alumno_t es la direccion del incio de un bloque de memoria
+   //para obtener asignar esta direc de memoria utilizo malloc, para el compilador me de los bytes 
+   // la memoria tiene 3 partes --> las variables estaticas globales 
+   //--> la memoria restante tiene 2 señaladores 
+   // en una subrutina se guarda informacion se mueve un puntero 
+   // se genera una pila de informacion 
+   // si malloc no tiene memoria malloc devuelve NULL
+   alumno_t alumno = malloc(sizeof(struct alumno_s));
+   // malloc reserva un bloque de memoria dinamica
+   // sizeof me da la cantidad de bytes de la estructura 
+   // malloc retorna un puntero 
+   // alumno sera un puntero a la estrutura alumno_s, alumno almacena la direc de memoria 
+   // que pasa si no hay memoria?
+   if (alumno != NULL) //si alumno es distinto de null hay memoria y le asigno a cada campo su valor
+   {
+      // guardo en el campo DNI el documento
+      alumno->DNI = DNI; 
+      // STRNCPY es una funcion que copia el valor 'apellido' en el campo apellido de la estructura
+      // el ultimo argumento indica el tamaño de los caracteres a copiar 
+      // si name es mayor que sizeof --> trunca el nombre 
+      strncpy(alumno->apellido,apellido,sizeof(alumno->apellido)-1);
+      strncpy(alumno->nombre,name,sizeof(alumno->nombre)-1);
+   }
+   return alumno; //si se puede crear el alumno retorna !=null
+}
+
+
 /* === Public function implementation ============================================================================== */
 
-int Serializar(alumno_t alumno,char chain[],uint32_t espacio){
+int Serializar_Alumno(alumno_t alumno,char chain[],uint32_t espacio){
    int posicion=0;
    chain[0]='{';  
    chain[posicion++]; 

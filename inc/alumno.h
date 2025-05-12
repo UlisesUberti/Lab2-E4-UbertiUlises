@@ -35,30 +35,29 @@ extern "C" {
 /* === Public macros definitions =================================================================================== */
 
 /* === Public data type declarations =============================================================================== */
-
+typedef struct alumno_s * alumno_t; 
+// estrucutra alumno_s y puntero a la esstructura alumno_t, alumno_t ocupa 4 bytes 
+// alumno --> objeto  
 /* === Public variable declarations ================================================================================ */
 
-/** @struct alumno_s
- * @brief estructura que contiene los datos del alumno
- * @param nombre indica el nombre del alumno(20 caracteres max.)
- * @param apellido  indica el apellido del alumno(20 caracteres max.)
- * @param DNI indica el documento del alumno 
-*/
-typedef struct alumno_s 
-{
-    char nombre[20]; //!<Nombre del alumno
-    char apellido[20]; //!<Apellido del alumno
-    uint32_t DNI; //!<Documento del alumno
-} const * alumno_t; //!< Puntero a la estructura alumno_s; 
-
 /* === Public function declarations ================================================================================ */
+
 /** @brief Funcion Serializar 
- * @param  alumno Puntero a la estrucutura alumno
  * @param chain cadena de datos del alumno 
  * @param espacio tamaño que ocupan los datos dentro de la cadena 
  * @return int  retorna -1 si no hay espacio o la cant de caracteres ocupados 
  */
-int Serializar(alumno_t alumno, char chain[],uint32_t espacio);
+int Serializar_Alumno(alumno_t alumno, char chain[],uint32_t espacio);
+
+/** @brief Funcion CrearAlumno 
+ * @param apellido cadena del apellido del alumno 
+ * @param name cadena del nombre del alumno 
+ * @param DNI documento del alumno
+ * @return alumno_t  retorna puntero a estructura para almacenar los datos o NULL si no se pudo crear  
+ */
+alumno_t Crear_Alumno(char apellido[], char name[],uint32_t DNI);
+// creo el alumno y retorno el puntero del alumno
+// Alumno es la clase y crear el metodo
 
 /* === End of conditional blocks =================================================================================== */
 

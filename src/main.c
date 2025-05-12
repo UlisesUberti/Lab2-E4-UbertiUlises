@@ -30,22 +30,8 @@ SPDX-License-Identifier: MIT
 
 /* === Private data type declarations ============================================================================== */
 /* === Private function declarations =============================================================================== */
-
+void MostrarAlumno(alumno_t,char cadena[],uint32_t disponible);
 /* === Private variable definitions ================================================================================ */
-
-static const struct alumno_s Mis_datos = 
-{
-    .nombre="Ulises Leandro",
-    .apellido="Uberti",
-    .DNI= 44376062,
-};
-static const struct alumno_s Mis_datos2 = 
-{
-    .nombre="Ulises Leandro",
-    .apellido="Uberti",
-    .DNI= 44376062,
-};
-
 /* === Public variable definitions ================================================================================= */
 /* === Private function definitions ================================================================================ */
 
@@ -54,9 +40,10 @@ static const struct alumno_s Mis_datos2 =
  */
 int main(void)
 {
-    char chain1[50],chain2[62];
+    char chain1[62],chain2[62];
     int ocupado_chain;
-    ocupado_chain=Serializar(&Mis_datos,chain1,sizeof(chain1));
+    alumno_t A = Crear_Alumno("Uberti","Ulises Leandro",44476062);
+    ocupado_chain=Serializar_Alumno(A,chain1,sizeof(chain1));
     if (ocupado_chain>0)
     {
         printf("Serializado: %s\n",chain1);
@@ -64,15 +51,6 @@ int main(void)
     else
     {
         printf("Error al Serializar / CADENA INSUFICIENTE\n");
-    }
-    ocupado_chain=Serializar(&Mis_datos2,chain2,sizeof(chain2));
-     if (ocupado_chain>0)
-    {
-        printf("Serializado: %s\n",chain2);
-    }
-    else
-    {
-        printf("Error al Serializar/CADENA INSUFICIENTE\n");
     }
     return 0;
 }
