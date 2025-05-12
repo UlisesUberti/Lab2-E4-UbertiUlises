@@ -42,23 +42,22 @@ extern "C" {
  * @brief estructura que contiene los datos del alumno
  * @param nombre indica el nombre del alumno(20 caracteres max.)
  * @param apellido  indica el apellido del alumno(20 caracteres max.)
- * @param DNI indica el documento del alumno 
-*/
-typedef struct alumno_s 
-{
-    char nombre[20]; //!<Nombre del alumno
-    char apellido[20]; //!<Apellido del alumno
-    uint32_t DNI; //!<Documento del alumno
-} const * alumno_t; //!< Puntero a la estructura alumno_s; 
+ * @param DNI indica el documento del alumno
+ */
+typedef struct alumno_s {
+    char nombre[20];   //!< Nombre del alumno
+    char apellido[20]; //!< Apellido del alumno
+    uint32_t DNI;      //!< Documento del alumno
+} const * alumno_t;    //!< Puntero a la estructura alumno_s;
 
 /* === Public function declarations ================================================================================ */
-/** @brief Funcion Serializar 
+/** @brief Funcion Serializar
  * @param  alumno Puntero a la estrucutura alumno
- * @param chain cadena de datos del alumno 
- * @param espacio tamaño que ocupan los datos dentro de la cadena 
- * @return int  retorna -1 si no hay espacio o la cant de caracteres ocupados 
+ * @param chain cadena de datos del alumno
+ * @param espacio tamaño que ocupan los datos dentro de la cadena
+ * @return int  retorna -1 si no hay espacio o la cant de caracteres ocupados
  */
-int Serializar(alumno_t alumno, char chain[],uint32_t espacio);
+int Serializar(alumno_t alumno, char chain[], uint32_t espacio);
 
 /* === End of conditional blocks =================================================================================== */
 

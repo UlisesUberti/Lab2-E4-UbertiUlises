@@ -27,78 +27,104 @@ SPDX-License-Identifier: MIT
 #include <stdio.h>
 #include <stdint.h>
 /* === Macros definitions ========================================================================================== */
+
 /* === Private data type declarations ============================================================================== */
+
 /* === Private function declarations =============================================================================== */
+
 /* === Private variable definitions ================================================================================ */
+
 /* === Public variable definitions ================================================================================= */
+
 /* === Private function definitions ================================================================================ */
 
 /** @brief Funcion para serializar el nombre y apellido
- *  @param campo indica el campo de la estructura 
- *  @param valor indica valor del campo 
+ *  @param campo indica el campo de la estructura
+ *  @param valor indica valor del campo
  *  @param chain es la cadena que se va a escribir
- *  @param espacio es el espacio que queda para escibir en la cadena  
+ *  @param espacio es el espacio que queda para escibir en la cadena
  *  @param posicion es la posicion de la cadena que se escribe
  *  @return -1 si sizeof(&valor)>espacio o snprintf()
  */
-int Serialize_chain(char campo[],const char valor[],char chain[],uint32_t espacio,int posicion)
-{
-   if (sizeof(&valor)>espacio)
-   {
-      return -1;
-   }
-   return snprintf(chain+posicion,espacio,"\"%s\":\"%s\",",campo,valor);  
+int Serialize_chain(char campo[], const char valor[], char chain[], uint32_t espacio, int posicion) {
+
+    /*Condicional si resta espacio suficiente para DNI y la ultima llave */
+    if (sizeof(&valor) > espacio) {
+        return -1;
+    }
+
+    /*Retorna la cantidad de caracteres escitos en la cadena*/
+    return snprintf(chain + posicion, espacio, "\"%s\":\"%s\",", campo, valor);
 }
 
-   /** @brief Funcion para serializar el DNI + APELLIDO&NOMBBRE
- *  @param campo indica el campo de la estructura 
- *  @param valor indica valor del campo 
+/** @brief Funcion para serializar el DNI + APELLIDO&NOMBBRE
+ *  @param campo indica el campo de la estructura
+ *  @param valor indica valor del campo
  *  @param chain es la cadena que se va a escribir
- *  @param espacio es el espacio que queda para escibir en la cadena  
+ *  @param espacio es el espacio que queda para escibir en la cadena
  *  @param posicion es la posicion de la cadena que se escribe
  *  @return -1 si sizeof(&valor)>espacio o snprintf
  */
-int Serialize_chain_dni(char campo[], uint32_t valor,char chain[],uint32_t espacio,int posicion)
-{
-   /**Condicional si resta espacio suficiente para DNI y la ultima llave */
-   if (sizeof(&valor)+1>espacio)
-   {
-      return -1;
-   }
-   return snprintf(chain+posicion,espacio,"\"%s\":%u,",campo,valor); 
+int Serialize_chain_dni(char campo[], uint32_t valor, char chain[], uint32_t espacio, int posicion) {
+
+    /*Condicional si resta espacio suficiente para DNI y la ultima llave */
+    if (sizeof(&valor) + 1 > espacio) {
+        return -1;
+    }
+
+    /*Retorna la cantidad de caracteres escitos en la cadena*/
+    return snprintf(chain + posicion, espacio, "\"%s\":%u,", campo, valor);
 }
 /* === Public function implementation ============================================================================== */
 
-int Serializar(alumno_t alumno,char chain[],uint32_t espacio){
-   int posicion=0;
-   chain[0]='{';  
-   chain[posicion++]; 
-   int ocupado=1;
-   espacio=espacio-1; 
-   /** @brief Cant_Caracteres recibe la cantidad de caracteres escritos si es que se escribio la cadena*/
-   int Cant_caracteres = Serialize_chain("name",alumno->nombre,chain,espacio,posicion); 
-   if (Cant_caracteres==-1)
-   {
-      return -1;
-   }
-   posicion= posicion + Cant_caracteres;
-   ocupado = ocupado + Cant_caracteres;
-   espacio=espacio-Cant_caracteres;
-   Cant_caracteres=Serialize_chain("apellido",alumno->apellido,chain,espacio,posicion);
-   if (Cant_caracteres==-1)
-   {
-      return -1;
-   }
-   posicion+=Cant_caracteres;
-   ocupado += Cant_caracteres;
-   espacio=espacio-Cant_caracteres;
-   Cant_caracteres=Serialize_chain_dni("DNI",alumno->DNI,chain,espacio,posicion);
-   if (Cant_caracteres==-1)
-   {
-      return -1;
-   }
-   chain[posicion+Cant_caracteres-1]='}';
-   ocupado += Cant_caracteres;
-   return ocupado; 
+int Serializar(alumno_t alumno, char chain[], uint32_t espacio) {
+
+    /*Defino variables a utilizar como la posicion de la cadena y el espacio ocupado al escribir*/
+    int posicion = 0;
+    /*Agrego la primera { del formato JSON*/
+    chain[0] = '{';
+    chain[posicion++];
+    int ocupado = 1;
+    espacio = espacio - 1;
+
+    /*Serializar el nombre del alumno*/
+    int Cant_caracteres = Serialize_chain("name", alumno->nombre, chain, espacio, posicion);
+
+    /*En caso de desbordar la cadena*/
+    if (Cant_caracteres == -1) {
+        return -1;
+    }
+
+    /*Cambia el valor de las varibales luego de escribir la cadena*/
+    posicion = posicion + Cant_caracteres;
+    ocupado = ocupado + Cant_caracteres;
+    espacio = espacio - Cant_caracteres;
+
+    /* Se serializa el apellido */
+    Cant_caracteres = Serialize_chain("apellido", alumno->apellido, chain, espacio, posicion);
+
+    /*En caso de desbordar la cadena*/
+    if (Cant_caracteres == -1) {
+        return -1;
+    }
+
+    /*Cambia el valor de las varibales luego de escribir la cadena*/
+    posicion += Cant_caracteres;
+    ocupado += Cant_caracteres;
+    espacio = espacio - Cant_caracteres;
+
+    /*Se serializa el documento*/
+    Cant_caracteres = Serialize_chain_dni("DNI", alumno->DNI, chain, espacio, posicion);
+
+    /*En caso de desbordar la cadena*/
+    if (Cant_caracteres == -1) {
+        return -1;
+    }
+
+    /*Cambia el valor de las varibales luego de escribir la cadena*/
+    chain[posicion + Cant_caracteres - 1] = '}';
+    ocupado += Cant_caracteres;
+
+    return ocupado;
 }
 /* === End of documentation ======================================================================================== */

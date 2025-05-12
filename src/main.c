@@ -33,47 +33,48 @@ SPDX-License-Identifier: MIT
 
 /* === Private variable definitions ================================================================================ */
 
-static const struct alumno_s Mis_datos = 
-{
-    .nombre="Ulises Leandro",
-    .apellido="Uberti",
-    .DNI= 44376062,
+static const struct alumno_s Mis_datos = {
+    .nombre = "Ulises Leandro",
+    .apellido = "Uberti",
+    .DNI = 44376062,
 };
-static const struct alumno_s Mis_datos2 = 
-{
-    .nombre="Ulises Leandro",
-    .apellido="Uberti",
-    .DNI= 44376062,
+
+static const struct alumno_s Mis_datos2 = {
+    .nombre = "Ulises Leandro",
+    .apellido = "Uberti",
+    .DNI = 44376062,
 };
 
 /* === Public variable definitions ================================================================================= */
+
 /* === Private function definitions ================================================================================ */
 
-/** @brief Funcion Principal 
+/** @brief Funcion Principal
  * @return 0
  */
-int main(void)
-{
-    char chain1[50],chain2[62];
+int main(void) {
+
+    /*Definicion de variables, cadena y espacio ocupado en la cadena*/
+    char chain1[50], chain2[62];
     int ocupado_chain;
-    ocupado_chain=Serializar(&Mis_datos,chain1,sizeof(chain1));
-    if (ocupado_chain>0)
-    {
-        printf("Serializado: %s\n",chain1);
-    }
-    else
-    {
+
+    /*Serializo la esctrucutra definida fuera de main*/
+    ocupado_chain = Serializar(&Mis_datos, chain1, sizeof(chain1));
+
+    /*Serializa si hay espacio y da error si no hay espacio en la cadena*/
+    if (ocupado_chain > 0) {
+        printf("Serializado: %s\n", chain1);
+    } else {
         printf("Error al Serializar / CADENA INSUFICIENTE\n");
     }
-    ocupado_chain=Serializar(&Mis_datos2,chain2,sizeof(chain2));
-     if (ocupado_chain>0)
-    {
-        printf("Serializado: %s\n",chain2);
-    }
-    else
-    {
+
+    ocupado_chain = Serializar(&Mis_datos2, chain2, sizeof(chain2));
+    if (ocupado_chain > 0) {
+        printf("Serializado: %s\n", chain2);
+    } else {
         printf("Error al Serializar/CADENA INSUFICIENTE\n");
     }
+
     return 0;
 }
 /* === Public function implementation ============================================================================== */

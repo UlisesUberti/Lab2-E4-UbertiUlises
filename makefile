@@ -1,6 +1,6 @@
 SRC_DIR = ./src
 INC_DIR = ./inc ./modules/inc
-
+OUT_FILE ?= app.exe 
 OUT_DIR = ./build
 OBJ_DIR = $(OUT_DIR)/OBJ
 BIN_DIR = $(OUT_DIR)/bin
@@ -13,7 +13,7 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 all: $(OBJ_FILES)
 	@echo "Linking object files to create the executable"
 	@mkdir -p $(BIN_DIR)
-	@gcc $(OBJ_FILES) -o $(BIN_DIR)/app.out
+	@gcc $(OBJ_FILES) -o $(BIN_DIR)/$(OUT_FILE)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c 	
 	@echo "Compilate $< to $@"
