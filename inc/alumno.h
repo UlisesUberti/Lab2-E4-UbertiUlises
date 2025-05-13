@@ -57,7 +57,7 @@ int Serializar_Alumno(puntero_alumno_s alumno, char chain[], uint32_t espacio);
  * @param DNI documento del alumno
  * @return alumno_t  retorna puntero a estructura para almacenar los datos o NULL si no se pudo crear
  */
-puntero_alumno_s Crear_Alumno(char apellido[], char name[], uint32_t DNI);
+puntero_alumno_s Crear_Alumno_MEM_Estatica(char apellido[], char name[], uint32_t DNI);
 // creo el alumno y retorno el puntero del alumno
 // Alumno es la clase y crear el metodo
 
