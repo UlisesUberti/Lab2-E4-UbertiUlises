@@ -33,16 +33,20 @@ SPDX-License-Identifier: MIT
 /* === Macros definitions ========================================================================================== */
 
 #ifndef CANTIDAD_MAXIMA_ALUMNOS
+
+/** @param CANTIDAD_MAXIMA_ALUMNOS la longitud del arreglo de estructuras en memoria estatica */
 #define CANTIDAD_MAXIMA_ALUMNOS 2
+
 #endif
 
 /* === Private data type declarations ============================================================================== */
 
-/** @struct alumno_s
- * @brief estructura que contiene los datos del alumno
- * @param nombre indica el nombre del alumno(20 caracteres max.)
- * @param apellido indica el apellido del alumno(20 caracteres max.)
+/**
+ * @struct estructura que contiene los datos del alumno
+ * @param name indica el nombre del alumno(20 caracteres max.)
+ * @param lastname indica el apellido del alumno(20 caracteres max.)
  * @param DNI indica el documento del alumno
+ * @param ocupado indica si hay una estructura en el espacio
  */
 struct alumno_s {
     char name[20];
@@ -73,6 +77,7 @@ static puntero_alumno_s Crear_Arreglo_Alumnos() {
     // Busco una posicion que no se encuentre ocupada por una estructura
     for (int i = 0; i < CANTIDAD_MAXIMA_ALUMNOS; i++) {
         if (!Arreglo_Alumnos[i].ocupado) {
+
             alumno_s = &Arreglo_Alumnos[i];
             // Asigno como ocupado en caso de encontrar espacio
             Arreglo_Alumnos[i].ocupado = true;
@@ -82,12 +87,6 @@ static puntero_alumno_s Crear_Arreglo_Alumnos() {
     }
 }
 
-/** @brief Funcion que crea la estructura alumno en memoria Estatica
- * @param apellido indica el valor del campo lastname de la estrucutra
- * @param name indica el valor del campo name de la estrucutra
- * @param documento indica el valor del cambo DNI de la estrucutra
- * @return alumnno, puntero de la estructura alumno_s
- */
 puntero_alumno_s Crear_Alumno_MEM_Estatica(char apellido[], char name[], uint32_t documento) {
 
     // Le asigno un arreglo de alumnos en la memoria, fijo y con una cantidad limite
@@ -101,6 +100,20 @@ puntero_alumno_s Crear_Alumno_MEM_Estatica(char apellido[], char name[], uint32_
     }
 
     // Retorno el puntero de la estructura alumno_s
+    return alumno;
+}
+
+puntero_alumno_s Crear_Alumno_MEM_Dinamica(char apellido[], char name[], uint32_t DNI) {
+
+    puntero_alumno_s alumno = malloc(sizeof(struct alumno_s));
+
+    if (alumno != NULL) {
+
+        alumno->DNI = DNI;
+        strncpy(alumno->lastname, apellido, sizeof(alumno->lastname) - 1);
+        strncpy(alumno->name, name, sizeof(alumno->name) - 1);
+    }
+
     return alumno;
 }
 

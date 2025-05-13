@@ -22,6 +22,7 @@ SPDX-License-Identifier: MIT
 
 /** @file alumno.h
  ** @brief Codigo cabecera para el modulo alumno, incluye solo declaraciones
+ @author Uberti, Ulises Leandro
  **/
 
 /* === Headers files inclusions ==================================================================================== */
@@ -35,31 +36,37 @@ extern "C" {
 /* === Public macros definitions =================================================================================== */
 
 /* === Public data type declarations =============================================================================== */
+
+/** @brief estrutura que contendra los datos del alumno */
 typedef struct alumno_s * puntero_alumno_s;
-// puntero_alumno_s es un tipo de dato que refiere a un puntero de la estructura alumno_s
-// entonces si pongo puntero_alumno_s A; A es el puntero a alumno_s
-// estrucutra alumno_s y puntero a la esstructura alumno_t, alumno_t ocupa 4 bytes
-// alumno --> objeto
+
 /* === Public variable declarations ================================================================================ */
 
 /* === Public function declarations ================================================================================ */
 
 /** @brief Funcion Serializar
+ * @param alumno puntero de la estructura
  * @param chain cadena de datos del alumno
  * @param espacio tamaño que ocupan los datos dentro de la cadena
  * @return int  retorna -1 si no hay espacio o la cant de caracteres ocupados
  */
 int Serializar_Alumno(puntero_alumno_s alumno, char chain[], uint32_t espacio);
 
-/** @brief Funcion CrearAlumno
- * @param apellido cadena del apellido del alumno
- * @param name cadena del nombre del alumno
- * @param DNI documento del alumno
- * @return alumno_t  retorna puntero a estructura para almacenar los datos o NULL si no se pudo crear
+/** @brief Funcion que crea la estructura alumno en memoria Estatica
+ * @param apellido indica el valor del campo lastname de la estrucutra
+ * @param name indica el valor del campo name de la estrucutra
+ * @param DNI indica el valor del cambo DNI de la estrucutra
+ * @return alumnno, puntero de la estructura alumno_s
  */
 puntero_alumno_s Crear_Alumno_MEM_Estatica(char apellido[], char name[], uint32_t DNI);
-// creo el alumno y retorno el puntero del alumno
-// Alumno es la clase y crear el metodo
+
+/** @brief Funcion para crear alumno con memoria Dinamica
+ * @param apellido indica el valor del campo lastname de la estrucutra
+ * @param name indica el valor del campo name de la estrucutra
+ * @param DNI indica el valor del cambo DNI de la estrucutra
+ * @return  puntero de la estrucutra
+ */
+puntero_alumno_s Crear_Alumno_MEM_Dinamica(char apellido[], char name[], uint32_t DNI);
 
 /* === End of conditional blocks =================================================================================== */
 
