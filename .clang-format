@@ -9,7 +9,6 @@ AllowShortFunctionsOnASingleLine: false
 AllowShortIfStatementsOnASingleLine:  false
 AllowShortLoopsOnASingleLine: true
 SortIncludes: false
-IndentsCaseLabels:  false 
 BreakBeforeBraces:  Attach
 PointerAlignment: Middle 
 ColumnLimit:  120

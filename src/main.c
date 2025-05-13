@@ -30,26 +30,30 @@ SPDX-License-Identifier: MIT
 
 /* === Private data type declarations ============================================================================== */
 /* === Private function declarations =============================================================================== */
-void MostrarAlumno(alumno_t,char cadena[],uint32_t disponible);
 /* === Private variable definitions ================================================================================ */
 /* === Public variable definitions ================================================================================= */
 /* === Private function definitions ================================================================================ */
 
-/** @brief Funcion Principal 
+/** @brief Funcion Principal
  * @return 0
  */
-int main(void)
-{
-    char chain1[62],chain2[62];
+int main(void) {
+    char chain1[62], chain2[62];
     int ocupado_chain;
-    alumno_t A = Crear_Alumno("Uberti","Ulises Leandro",44476062);
-    ocupado_chain=Serializar_Alumno(A,chain1,sizeof(chain1));
-    if (ocupado_chain>0)
-    {
-        printf("Serializado: %s\n",chain1);
+    // Busco espacio en memoria dinamica para crear el alumno
+    puntero_alumno_s A = Crear_Alumno("Uberti", "Ulises Leandro", 44476062);
+    // En caso de no tener espacio en memoria dinamica el puntero a la estructura
+    // A es el puntero que retorna Crear Alumno
+    //  Si se creo un alumno en la direc de memoria estaran sus datos
+    //  Si A es null entonces no se pudo crear
+    if (A == NULL) {
+        printf("Error al Crear Alumno\n");
+        return 0;
     }
-    else
-    {
+    ocupado_chain = Serializar_Alumno(A, chain1, sizeof(chain1));
+    if (ocupado_chain > 0) {
+        printf("Serializado: %s\n", chain1);
+    } else {
         printf("Error al Serializar / CADENA INSUFICIENTE\n");
     }
     return 0;

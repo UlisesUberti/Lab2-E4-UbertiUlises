@@ -35,27 +35,29 @@ extern "C" {
 /* === Public macros definitions =================================================================================== */
 
 /* === Public data type declarations =============================================================================== */
-typedef struct alumno_s * alumno_t; 
-// estrucutra alumno_s y puntero a la esstructura alumno_t, alumno_t ocupa 4 bytes 
-// alumno --> objeto  
+typedef struct alumno_s * puntero_alumno_s;
+// puntero_alumno_s es un tipo de dato que refiere a un puntero de la estructura alumno_s
+// entonces si pongo puntero_alumno_s A; A es el puntero a alumno_s
+// estrucutra alumno_s y puntero a la esstructura alumno_t, alumno_t ocupa 4 bytes
+// alumno --> objeto
 /* === Public variable declarations ================================================================================ */
 
 /* === Public function declarations ================================================================================ */
 
-/** @brief Funcion Serializar 
- * @param chain cadena de datos del alumno 
- * @param espacio tamaño que ocupan los datos dentro de la cadena 
- * @return int  retorna -1 si no hay espacio o la cant de caracteres ocupados 
+/** @brief Funcion Serializar
+ * @param chain cadena de datos del alumno
+ * @param espacio tamaño que ocupan los datos dentro de la cadena
+ * @return int  retorna -1 si no hay espacio o la cant de caracteres ocupados
  */
-int Serializar_Alumno(alumno_t alumno, char chain[],uint32_t espacio);
+int Serializar_Alumno(puntero_alumno_s alumno, char chain[], uint32_t espacio);
 
-/** @brief Funcion CrearAlumno 
- * @param apellido cadena del apellido del alumno 
- * @param name cadena del nombre del alumno 
+/** @brief Funcion CrearAlumno
+ * @param apellido cadena del apellido del alumno
+ * @param name cadena del nombre del alumno
  * @param DNI documento del alumno
- * @return alumno_t  retorna puntero a estructura para almacenar los datos o NULL si no se pudo crear  
+ * @return alumno_t  retorna puntero a estructura para almacenar los datos o NULL si no se pudo crear
  */
-alumno_t Crear_Alumno(char apellido[], char name[],uint32_t DNI);
+puntero_alumno_s Crear_Alumno(char apellido[], char name[], uint32_t DNI);
 // creo el alumno y retorno el puntero del alumno
 // Alumno es la clase y crear el metodo
 
