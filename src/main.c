@@ -38,10 +38,12 @@ SPDX-License-Identifier: MIT
  * @return 0
  */
 int main(void) {
-    char chain1[62], chain2[62];
+    char chain1[60], chain2[62], chain3[60];
     int ocupado_chain;
     // Busco espacio en memoria dinamica para crear el alumno
     puntero_alumno_s A = Crear_Alumno("Uberti", "Ulises Leandro", 44476062);
+    puntero_alumno_s B = Crear_Alumno("Leandro", "Fernandez", 44062376);
+    puntero_alumno_s C = Crear_Alumno("Esteban", "uBERTI", 23555777);
     // En caso de no tener espacio en memoria dinamica el puntero a la estructura
     // A es el puntero que retorna Crear Alumno
     //  Si se creo un alumno en la direc de memoria estaran sus datos
@@ -49,13 +51,39 @@ int main(void) {
     if (A == NULL) {
         printf("Error al Crear Alumno\n");
         return 0;
-    }
-    ocupado_chain = Serializar_Alumno(A, chain1, sizeof(chain1));
-    if (ocupado_chain > 0) {
-        printf("Serializado: %s\n", chain1);
     } else {
-        printf("Error al Serializar / CADENA INSUFICIENTE\n");
+        ocupado_chain = Serializar_Alumno(A, chain2, sizeof(chain2));
+        if (ocupado_chain > 0) {
+            printf("Serializado: %s\n", chain2);
+        } else {
+            printf("Error al Serializar / CADENA INSUFICIENTE\n");
+        }
     }
+
+    if (B == NULL) {
+        printf("Error al Crear Alumno\n");
+        return 0;
+    } else {
+        ocupado_chain = Serializar_Alumno(B, chain1, sizeof(chain1));
+        if (ocupado_chain > 0) {
+            printf("Serializado: %s\n", chain1);
+        } else {
+            printf("Error al Serializar / CADENA INSUFICIENTE\n");
+        }
+    }
+
+    if (C == NULL) {
+        printf("Error al Crear Alumno\n");
+        return 0;
+    } else {
+        ocupado_chain = Serializar_Alumno(C, chain3, sizeof(chain3));
+        if (ocupado_chain > 0) {
+            printf("Serializado: %s\n", chain3);
+        } else {
+            printf("Error al Serializar / CADENA INSUFICIENTE\n");
+        }
+    }
+
     return 0;
 }
 /* === Public function implementation ============================================================================== */
